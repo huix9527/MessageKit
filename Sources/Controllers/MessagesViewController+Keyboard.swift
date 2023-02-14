@@ -42,7 +42,7 @@ extension MessagesViewController {
       .delay(for: .milliseconds(200), scheduler: DispatchQueue.main)
       .receive(on: DispatchQueue.main)
       .sink { [weak self] notification in
-        self?.handleTextViewDidBeginEditing(notification)
+//        self?.handleTextViewDidBeginEditing(notification)
       }
       .store(in: &disposeBag)
 
@@ -71,7 +71,7 @@ extension MessagesViewController {
       .receive(on: DispatchQueue.main)
       .removeDuplicates()
       .sink(receiveValue: { [weak self] _ in
-        self?.updateMessageCollectionViewBottomInset()
+//        self?.updateMessageCollectionViewBottomInset()
       })
       .store(in: &disposeBag)
   }
@@ -80,17 +80,12 @@ extension MessagesViewController {
 
   /// Updates bottom messagesCollectionView inset based on the position of inputContainerView
   internal func updateMessageCollectionViewBottomInset() {
-    let collectionViewHeight = messagesCollectionView.frame.maxY
-    let newBottomInset = collectionViewHeight - (inputContainerView.frame.minY - additionalBottomInset) -
-      automaticallyAddedBottomInset
-    let normalizedNewBottomInset = max(0, newBottomInset)
-    let differenceOfBottomInset = newBottomInset - messageCollectionViewBottomInset
-
-    UIView.performWithoutAnimation {
-      guard differenceOfBottomInset != 0 else { return }
-      messagesCollectionView.contentInset.bottom = normalizedNewBottomInset
-      messagesCollectionView.verticalScrollIndicatorInsets.bottom = newBottomInset
-    }
+      let rcInCollectionView = self.inputContainerView.convert(self.inputContainerView.bounds, to: self.view)
+      let top = rcInCollectionView.minY
+      let inset = self.messagesCollectionView.frame.height - top - automaticallyAddedBottomInset + 6
+      messagesCollectionView.contentInset.bottom = inset
+      messagesCollectionView.verticalScrollIndicatorInsets.bottom = inset
+      self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
   }
 
   // MARK: Private
