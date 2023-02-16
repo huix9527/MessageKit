@@ -349,7 +349,7 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
       sleep(1)
       DispatchQueue.main.async { [weak self] in
         inputBar.sendButton.stopAnimating()
-        inputBar.inputTextView.placeholder = "Aa"
+        inputBar.inputTextView.placeholder = "Ask a Question"
         self?.insertMessages(components)
         self?.messagesCollectionView.scrollToLastItem(animated: true)
       }
