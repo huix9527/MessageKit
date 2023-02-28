@@ -80,6 +80,7 @@ extension MessagesViewController {
 
   /// Updates bottom messagesCollectionView inset based on the position of inputContainerView
   internal func updateMessageCollectionViewBottomInset() {
+      self.messagesCollectionView.scrollToLastItem(at: .top, animated: false)
       return
       let rcInCollectionView = self.inputContainerView.convert(self.inputContainerView.bounds, to: self.view)
       let top = rcInCollectionView.minY
